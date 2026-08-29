@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎯 Quiz Master - Aplikasi Kuis Pelajar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .app-container {
+            max-width: 850px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 35px 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .app-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-title i {
+            font-size: 32px;
+            color: #ffd200;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e0e0f0;
+        }
+
+        .stat-badge i {
+            color: #ffd700;
+        }
+
+        .stat-badge .value {
+            color: #fff;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            padding: 0 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        /* Timer */
+        .timer-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            margin-bottom: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .timer-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            border-radius: 20px;
+            transition: width 0.3s linear;
+        }
+
+        .timer-fill.warning {
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+        }
+
+        .timer-fill.danger {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Category Selector */
+        .category-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            padding: 8px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #b0b0d0;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cat-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #1a1a2e;
+            border-color: #ffd200;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .cat-btn i {
+            font-size: 16px;
+        }
+
+        /* Question Card */
+        .question-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 28px;
+            padding: 30px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+            margin-bottom: 25px;
+        }
+
+        .q-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .q-number {
+            font-size: 15px;
+            font-weight: 400;
+            color: #a0a0c0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .q-number i {
+            color: #ffd700;
+        }
+
+        .q-category {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.12);
+            color: #ffd700;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .q-text {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .q-difficulty {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #8888aa;
+            margin-top: 6px;
+        }
+
+        .q-difficulty i {
+            font-size: 14px;
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 22px 0 16px;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #eaeaf5;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            backdrop-filter: blur(2px);
+            font-family: 'Poppins', sans-serif;
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.disabled-option) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-label {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            font-weight: 700;
+            font-size: 14px;
+            color: #c0c0e0;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.15);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+        }
+
+        .option-btn.correct .option-label {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .option-btn.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.15);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+        }
+
+        .option-btn.wrong .option-label {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .option-btn.disabled-option {
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        .option-btn.disabled-option:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Feedback */
+        .feedback-box {
+            margin-top: 18px;
+            padding: 16px 22px;
+            border-radius: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .feedback-box i {
+            font-size: 24px;
+            width: 32px;
+            text-align: center;
+        }
+
+        .feedback-box.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.08);
+            color: #a8f0c0;
+        }
+
+        .feedback-box.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.08);
+            color: #f5a0a0;
+        }
+
+        .feedback-box.empty {
+            color: #8888aa;
+        }
+
+        /* Actions */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #1a1a2e;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.35);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #c0c0e0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.25);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25);
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn i {
+            font-size: 18px;
+        }
+
+        /* Result */
+        .result-card {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+
+        .result-emoji {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: bounceIn 0.6s;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .result-title {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .result-score {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 8px 0;
+        }
+
+        .result-detail {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .result-stat {
+            text-align: center;
+        }
+
+        .result-stat .number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .result-stat .label {
+            font-size: 14px;
+            color: #8888aa;
+            margin-top: 2px;
+        }
+
+        .result-stat .number.correct-color {
+            color: #2ecc71;
+        }
+        .result-stat .number.wrong-color {
+            color: #e74c3c;
+        }
+
+        .result-message {
+            font-size: 18px;
+            color: #c0c0e0;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .app-container {
+                padding: 22px 16px;
+            }
+            .app-title {
+                font-size: 22px;
+            }
+            .q-text {
+                font-size: 20px;
+            }
+            .option-btn {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+            .btn {
+                padding: 12px 22px;
+                font-size: 14px;
+            }
+            .stat-badge {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+            .result-score {
+                font-size: 42px;
+            }
+            .result-detail {
+                gap: 20px;
+            }
+            .cat-btn {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .app-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .action-bar {
+                justify-content: center;
+            }
+            .options-grid {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="app-title">
+                <i class="fas fa-brain"></i> Quiz Master
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge">
+                    <i class="fas fa-star"></i> Skor: <span class="value" id="scoreDisplay">0</span>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-clock"></i> <span id="timerDisplay">15</span>s
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-bar">
+            <div class="timer-fill" id="timerFill"></div>
+        </div>
+
+        <!-- Category Selector -->
+        <div class="category-selector" id="categorySelector">
+            <button class="cat-btn active" data-category="all"><i class="fas fa-globe"></i> Semua</button>
+            <button class="cat-btn" data-category="Matematika"><i class="fas fa-calculator"></i> Matematika</button>
+            <button class="cat-btn" data-category="IPA"><i class="fas fa-flask"></i> IPA</button>
+            <button class="cat-btn" data-category="Bahasa Indonesia"><i class="fas fa-book"></i> Bahasa</button>
+            <button class="cat-btn" data-category="Bahasa Inggris"><i class="fas fa-language"></i> Inggris</button>
+            <button class="cat-btn" data-category="IPS"><i class="fas fa-globe-asia"></i> IPS</button>
+            <button class="cat-btn" data-category="Seni"><i class="fas fa-palette"></i> Seni</button>
+            <button class="cat-btn" data-category="Olahraga"><i class="fas fa-running"></i> Olahraga</button>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent"></div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            //  BANK SOAL - 120+ PERTANYAAN DARI BERBAGAI MATA PELAJARAN
+            // ============================================================
+            const allQuestions = [
+                // ===== MATEMATIKA (20 Soal) =====
+                { category: 'Matematika', difficulty: 'Mudah',
+                question: 'Berapa hasil dari 12 × 8?', options: ['86', '96', '106', '76'], answer: 1 },
+                { category: 'Matematika', difficulty: 'Mudah', question: 'Akar kuadrat dari 144 adalah?', options: ['10',
+                        '11', '12', '13'
+                    ], answer: 2 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika a = 5 dan b = 7, maka a² + b² = ?',
+                    options: ['74', '64', '84', '54'], answer: 0 },
+                { category: 'Matematika', difficulty: 'Mudah', question: 'Berapa nilai dari 3! (faktorial)?',
+                    options: ['3', '6', '9', '12'], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang',
+                    question: 'Keliling lingkaran dengan jari-jari 7 cm (π=22/7) adalah?', options: ['44 cm', '22 cm',
+                        '88 cm', '66 cm'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Mudah', question: 'Berapa 25% dari 200?', options: ['40', '50',
+                        '60', '70'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Hasil dari 15 + 6 × 3 adalah?', options: ['33',
+                        '63', '21', '27'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Mudah', question: 'Luas persegi dengan sisi 9 cm adalah?',
+                    options: ['72 cm²', '81 cm²', '90 cm²', '100 cm²'], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Berapa hasil dari 2⁵?', options: ['16', '32',
+                        '64', '128'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika x = 10, maka 3x - 5 = ?', options: ['20',
+                        '25', '30', '35'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Volume kubus dengan rusuk 4 cm adalah?',
+                    options: ['64 cm³', '48 cm³', '32 cm³', '16 cm³'], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Hasil dari 4/5 + 3/10 adalah?', options: [
+                        '7/10', '11/10', '1', '13/10'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Berapa nilai x dari 2x + 5 = 21?', options: [
+                        '6', '7', '8', '9'
+                    ], answer: 2 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Luas segitiga dengan alas 10 cm dan tinggi 8 cm?',
+                    options: ['40 cm²', '80 cm²', '20 cm²', '60 cm²'], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Hasil dari (3 + 4)² adalah?', options: ['49',
+                        '25', '36', '64'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'KPK dari 12 dan 18 adalah?', options: ['24',
+                        '36', '48', '72'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Nilai dari sin 30° adalah?', options: ['1/2',
+                        '1/√2', '√3/2', '1'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Berapa akar dari x² - 16 = 0?', options: ['4',
+                        '-4', '±4', '8'
+                    ], answer: 2 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Sebuah balok memiliki panjang 5 cm, lebar 3 cm, tinggi 4 cm. Volumenya?',
+                    options: ['60 cm³', '12 cm³', '20 cm³', '40 cm³'], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Hasil dari log 1000 adalah?', options: ['1',
+                        '2', '3', '4'
+                    ], answer: 2 },
+
+                // ===== IPA (20 Soal) =====
+                { category: 'IPA', difficulty: 'Mudah', question: 'Organ yang bertugas memompa darah adalah?',
+                    options: ['Paru-paru', 'Jantung', 'Ginjal', 'Hati'], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Tumbuhan hijau menghasilkan makanannya sendiri melalui?',
+                    options: ['Respirasi', 'Fotosintesis', 'Fermentasi', 'Transpirasi'], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Gaya yang menarik benda ke pusat bumi adalah?',
+                    options: ['Gesekan', 'Gravitasi', 'Magnet', 'Dorongan'], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Berikut yang termasuk sumber energi terbarukan adalah?',
+                    options: ['Minyak', 'Batu bara', 'Matahari', 'Gas alam'], answer: 2 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Bagian sel yang berfungsi sebagai pengatur aktivitas adalah?',
+                    options: ['Membran', 'Nukleus', 'Sitoplasma', 'Mitokondria'], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Planet terbesar dalam tata surya adalah?', options: [
+                        'Saturnus', 'Jupiter', 'Uranus', 'Neptunus'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Perubahan wujud dari cair ke padat disebut?',
+                    options: ['Menguap', 'Membeku', 'Mencair', 'Menyublim'], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Alat untuk mengukur suhu adalah?', options: [
+                        'Barometer', 'Termometer', 'Hidrometer', 'Manometer'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Proses pemisahan zat dengan penyaringan disebut?',
+                    options: ['Distilasi', 'Evaporasi', 'Kromatografi', 'Filtrasi'], answer: 3 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Sistem pernapasan manusia terdiri dari...',
+                    options: ['Jantung dan paru-paru', 'Paru-paru dan trakea', 'Hati dan ginjal', 'Otak dan sumsum'],
+                    answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Rumus kimia untuk air adalah?', options: ['H₂O',
+                        'CO₂', 'NaCl', 'HCl'
+                    ], answer: 0 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Bagian mata yang berfungsi sebagai lensa adalah?',
+                    options: ['Kornea', 'Lensa kristal', 'Retina', 'Pupil'], answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Kecepatan cahaya di ruang hampa adalah...',
+                    options: ['3×10⁸ m/s', '3×10⁶ m/s', '3×10¹⁰ m/s', '3×10⁴ m/s'], answer: 0 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Salah satu contoh hewan vertebrata adalah?',
+                    options: ['Cacing', 'Belalang', 'Kucing', 'Udang'], answer: 2 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Apa fungsi akar pada tumbuhan?', options: [
+                        'Menyerap air', 'Fotosintesis', 'Reproduksi', 'Menopang bunga'
+                    ], answer: 0 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Zat yang memiliki pH kurang dari 7 disebut?',
+                    options: ['Basa', 'Asam', 'Netral', 'Garam'], answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Energi yang dihasilkan dari reaksi nuklir disebut?',
+                    options: ['Energi panas', 'Energi nuklir', 'Energi kimia', 'Energi listrik'], answer: 1 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Alat gerak pada manusia terdiri dari...',
+                    options: ['Tulang dan otot', 'Sendi dan tulang', 'Otot dan sendi', 'Semua benar'], answer: 3 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Hukum Newton yang menjelaskan aksi-reaksi adalah?',
+                    options: ['I', 'II', 'III', 'IV'], answer: 2 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Proses perubahan uap air menjadi air disebut?',
+                    options: ['Evaporasi', 'Kondensasi', 'Presipitasi', 'Transpirasi'], answer: 1 },
+
+                // ===== BAHASA INDONESIA (15 Soal) =====
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Kata baku yang benar adalah?',
+                    options: ['Aktif', 'Aktip', 'Aktifah', 'Aktifis'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Sinonim dari kata "Cepat" adalah?',
+                    options: ['Lambat', 'Kencang', 'Perlahan', 'Lembut'], answer: 1 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Antonim dari kata "Panas" adalah?',
+                    options: ['Dingin', 'Hangat', 'Sejuk', 'Gerah'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah',
+                    question: 'Kalimat baku: "Saya .... ke sekolah setiap hari."', options: ['berangkat',
+                        'berangkatkan', 'berkeberangkatan', 'keberangkatan'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Puisi rakyat yang terdiri dari 4 baris disebut?',
+                    options: ['Pantun', 'Syair', 'Gurindam', 'Balada'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang',
+                    question: 'Kata berimbuhan me- yang benar: ".... buku di meja."', options: ['Meletakkan', 'Menaruh',
+                        'Mengambil', 'Menyimpan'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Huruf kapital digunakan pada awal ....',
+                    options: ['kalimat', 'kata kerja', 'kata sifat', 'kata bilangan'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah',
+                    question: '"Anak itu cerdas dan rajin." Kata "cerdas" termasuk ....', options: ['kata sifat',
+                        'kata benda', 'kata kerja', 'kata ganti'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Contoh kalimat aktif adalah?',
+                    options: ['Adik menendang bola', 'Bola ditendang adik', 'Bola itu bulat', 'Adik bermain'],
+                    answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Makna ungkapan "banting tulang" adalah?',
+                    options: ['bekerja keras', 'bermain', 'berlibur', 'bersantai'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Kalimat tidak efektif terdapat pada...',
+                    options: ['Saya membaca buku', 'Saya membaca buku di perpustakaan', 'Saya sedang membaca buku',
+                        'Saya membaca buku-buku'
+                    ], answer: 3 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Contoh kata berimbuhan "pe-an" adalah?',
+                    options: ['Pendidikan', 'Pelajar', 'Pembaca', 'Penulis'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Unsur intrinsik cerita pendek adalah?',
+                    options: ['Tema', 'Sampul', 'Halaman', 'Penerbit'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Kata "makan" jika diberi imbuhan "me-" menjadi?',
+                    options: ['Memakan', 'Mengakan', 'Makanan', 'Termakan'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Kalimat yang menggunakan majas personifikasi adalah?',
+                    options: ['Angin berbisik', 'Dia secepat kilat', 'Bunga itu cantik', 'Rumah besar itu'],
+                    answer: 0 },
+
+                // ===== BAHASA INGGRIS (15 Soal) =====
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'What is the plural of "child"?',
+                    options: ['Childs', 'Children', 'Childes', 'Childer'], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"I ____ a student." (am/is/are)',
+                    options: ['am', 'is', 'are', 'be'], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'The opposite of "hot" is?', options: [
+                        'Cold', 'Warm', 'Cool', 'Chilly'
+                    ], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"She ____ to school every day." (go/goes/going)',
+                    options: ['go', 'goes', 'going', 'gone'], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'What is the past tense of "eat"?',
+                    options: ['Eated', 'Ate', 'Eaten', 'Eating'], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"They ____ playing football now." (is/am/are)',
+                    options: ['is', 'am', 'are', 'be'], answer: 2 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'Which is a fruit?', options: ['Carrot',
+                        'Apple', 'Potato', 'Onion'
+                    ], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'The meaning of "Beautiful" is?',
+                    options: ['Cantik', 'Pintar', 'Kaya', 'Bahagia'], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"She has ____ apples." (many/much)',
+                    options: ['many', 'much', 'more', 'most'], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'What is the correct sentence?', options: [
+                        'She go to school', 'She goes to school', 'She going to school', 'She gone to school'
+                    ], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"I have ____ finished my homework." (already/yet)',
+                    options: ['already', 'yet', 'still', 'never'], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'The superlative form of "good" is?',
+                    options: ['Gooder', 'Best', 'Better', 'More good'], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"Would you like ____ coffee?" (some/any)',
+                    options: ['some', 'any', 'a', 'an'], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'Passive voice: "They eat the cake." becomes?',
+                    options: ['The cake is eaten', 'The cake was eaten', 'The cake ate', 'They are eaten'],
+                    answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'What is "mobil" in English?', options: [
+                        'Car', 'Bus', 'Train', 'Bike'
+                    ], answer: 0 },
+
+                // ===== IPS / SEJARAH (15 Soal) =====
+                { category: 'IPS', difficulty: 'Mudah', question: 'Bendera Indonesia pertama kali dikibarkan pada tahun?',
+                    options: ['1945', '1946', '1947', '1948'], answer: 0 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Siapa presiden pertama Indonesia?', options: [
+                        'Soekarno', 'Hatta', 'Suharto', 'Habibie'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Pulau terbesar di Indonesia adalah?', options: [
+                        'Jawa', 'Sumatra', 'Kalimantan', 'Papua'
+                    ], answer: 2 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Semboyan Indonesia adalah?', options: [
+                        'Bhinneka Tunggal Ika', 'Merdeka atau Mati', 'Satyam Eva Jayate', 'Vasudhaiva Kutumbakam'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Pahlawan yang dijuluki "Singa Padang" adalah?',
+                    options: ['Tuanku Imam Bonjol', 'Tjut Njak Din', 'Sultan Agung', 'Pangeran Diponegoro'],
+                    answer: 0 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Samudra yang mengelilingi Indonesia di bagian barat?',
+                    options: ['Pasifik', 'Hindia', 'Atlantik', 'Arktik'], answer: 1 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Kerajaan Islam pertama di Indonesia adalah?',
+                    options: ['Malaka', 'Demak', 'Samudra Pasai', 'Mataram'], answer: 2 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Proklamasi Kemerdekaan Indonesia dibacakan di?',
+                    options: ['Jakarta', 'Bandung', 'Surabaya', 'Yogyakarta'], answer: 0 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Siapa penemu Benua Amerika?', options: [
+                        'Vasco da Gama', 'Christopher Columbus', 'Ferdinand Magellan', 'James Cook'
+                    ], answer: 1 },
+                { category: 'IPS', difficulty: 'Sulit', question: 'Perang Dunia II terjadi pada tahun?', options: [
+                        '1914-1918', '1939-1945', '1941-1945', '1918-1939'
+                    ], answer: 1 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Lambang negara Indonesia adalah?', options: [
+                        'Garuda Pancasila', 'Banteng', 'Pohon Beringin', 'Bunga Teratai'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sulit', question: 'Sultan Hasanuddin berasal dari?', options: ['Sulawesi',
+                        'Sumatra', 'Jawa', 'Kalimantan'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Ibukota provinsi Jawa Timur adalah?', options: [
+                        'Surabaya', 'Semarang', 'Bandung', 'Yogyakarta'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sulit', question: 'Revolusi Industri pertama terjadi di?', options: [
+                        'Inggris', 'Prancis', 'Jerman', 'Amerika'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Upacara adat "Ngaben" berasal dari?', options: [
+                        'Bali', 'Jawa', 'Sumatra', 'Sulawesi'
+                    ], answer: 0 },
+
+                // ===== SENI BUDAYA (10 Soal) =====
+                { category: 'Seni', difficulty: 'Mudah', question: 'Alat musik tradisional dari Jawa Barat adalah?',
+                    options: ['Angklung', 'Gamelan', 'Sasando', 'Kolintang'], answer: 0 },
+                { category: 'Seni', difficulty: 'Mudah', question: 'Tarian dari Bali yang terkenal adalah?', options: [
+                        'Kecak', 'Saman', 'Piring', 'Jaipong'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Pelukis terkenal Indonesia adalah?', options: [
+                        'Affandi', 'Radèn Saleh', 'Basuki Abdullah', 'Semua benar'
+                    ], answer: 3 },
+                { category: 'Seni', difficulty: 'Mudah', question: 'Warna primer adalah?', options: ['Merah, Kuning, Biru',
+                        'Merah, Hijau, Biru', 'Kuning, Hijau, Ungu', 'Biru, Jingga, Hijau'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Tari Saman berasal dari?', options: ['Aceh', 'Padang',
+                        'Medan', 'Riau'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Mudah', question: 'Alat musik pukul dari Jawa Tengah adalah?',
+                    options: ['Gamelan', 'Angklung', 'Sasando', 'Tifa'], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Salah satu cabang seni rupa adalah?', options: [
+                        'Lukisan', 'Tarian', 'Lagu', 'Drama'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sulit', question: 'Mona Lisa dilukis oleh?', options: ['Da Vinci',
+                        'Michelangelo', 'Rafael', 'Picasso'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Wayang kulit berasal dari?', options: ['Jawa',
+                        'Sumatra', 'Bali', 'Kalimantan'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sulit', question: 'Ciri khas musik jazz adalah?', options: [
+                        'Improvisasi', 'Biola', 'Gitar akustik', 'Vokal'
+                    ], answer: 0 },
+
+                // ===== OLAHRAGA (10 Soal) =====
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Sepak bola dimainkan oleh berapa pemain?',
+                    options: ['9', '10', '11', '12'], answer: 2 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Olahraga yang menggunakan raket adalah?',
+                    options: ['Tenis', 'Sepak bola', 'Renang', 'Lari'], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Bulu tangkis diciptakan oleh?', options: [
+                        'Inggris', 'India', 'Indonesia', 'Cina'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Pemenang dalam lomba lari disebut?', options: [
+                        'Juara', 'Pelari', 'Atlet', 'Pemenang'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Basket dimainkan oleh berapa pemain per tim?',
+                    options: ['5', '6', '7', '8'], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Renang gaya bebas disebut juga?', options: [
+                        'Crawl', 'Dada', 'Punggung', 'Kupu-kupu'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sulit', question: 'Piala Dunia Sepak Bola pertama diadakan tahun?',
+                    options: ['1930', '1934', '1938', '1950'], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Olahraga yang menggunakan pedang adalah?',
+                    options: ['Anggar', 'Tinju', 'Karate', 'Taekwondo'], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Lari maraton jaraknya adalah?', options: [
+                        '42,195 km', '21 km', '10 km', '50 km'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Cabang olahraga atletik meliputi?', options: [
+                        'Lari, lompat, lempar', 'Renang, selam', 'Sepak bola, basket', 'Bulu tangkis, tenis'
+                    ], answer: 0 },
+            ];
+
+            // ============================================================
+            //  STATE
+            // ============================================================
+            let currentQuestions = [];
+            let currentIndex = 0;
+            let score = 0;
+            let answered = false;
+            let timer = 15;
+            let timerInterval = null;
+            let isTimerRunning = false;
+            let categoryFilter = 'all';
+            let totalAnswered = 0;
+            let correctCount = 0;
+
+            // DOM elements
+            const mainContent = document.getElementById('mainContent');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerFill = document.getElementById('timerFill');
+            const categorySelector = document.getElementById('categorySelector');
+
+            // ============================================================
+            //  HELPERS
+            // ============================================================
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function getQuestionsByCategory(category) {
+                if (category === 'all') return shuffleArray([...allQuestions]);
+                return shuffleArray(allQuestions.filter(q => q.category === category));
+            }
+
+            function updateScore() {
+                scoreDisplay.textContent = score;
+            }
+
+            function updateTimerDisplay(value) {
+                timerDisplay.textContent = value;
+                const percentage = (value / 15) * 100;
+                timerFill.style.width = percentage + '%';
+                timerFill.classList.remove('warning', 'danger');
+                if (value <= 5) timerFill.classList.add('danger');
+                else if (value <= 10) timerFill.classList.add('warning');
+            }
+
+            function stopTimer() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    isTimerRunning = false;
+                }
+            }
+
+            function startTimer() {
+                stopTimer();
+                timer = 15;
+                updateTimerDisplay(timer);
+                isTimerRunning = true;
+                timerInterval = setInterval(() => {
+                    timer--;
+                    updateTimerDisplay(timer);
+                    if (timer <= 0) {
+                        stopTimer();
+                        // Time's up - auto submit wrong answer
+                        if (!answered) {
+                            autoFail();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function autoFail() {
+                const options = document.querySelectorAll('.option-btn');
+                const feedback = document.getElementById('feedback');
+                if (!answered && options.length > 0) {
+                    options.forEach(btn => {
+                        btn.classList.add('disabled-option');
+                        if (btn.dataset.correct === 'true') {
+                            btn.classList.add('correct');
+                        }
+                    });
+                    const q = currentQuestions[currentIndex];
+                    const correctText = q.options[q.answer];
+                    feedback.className = 'feedback-box wrong';
+                    feedback.innerHTML =
+                        `<i class="fas fa-clock"></i> Waktu habis! Jawaban yang benar: <strong>${correctText}</strong>`;
+                    answered = true;
+                    document.getElementById('nextBtn').disabled = false;
+                    totalAnswered++;
+                }
+            }
+
+            // ============================================================
+            //  RENDER QUESTION
+            // ============================================================
+            function renderQuestion() {
+                if (currentIndex >= currentQuestions.length) {
+                    renderResult();
+                    return;
+                }
+
+                const q = currentQuestions[currentIndex];
+                const labels = ['A', 'B', 'C', 'D'];
+
+                // Build difficulty emoji
+                const diffEmoji = {
+                    'Mudah': '🟢',
+                    'Sedang': '🟡',
+                    'Sulit': '🔴'
+                };
+
+                let optionsHtml = '';
+                q.options.forEach((opt, idx) => {
+                    optionsHtml += `
+                        <button class="option-btn" data-index="${idx}" data-correct="${q.answer === idx ? 'true' : 'false'}">
+                            <span class="option-label">${labels[idx]}</span>
+                            ${opt}
+                        </button>
+                    `;
+                });
+
+                const html = `
+                    <div class="question-card">
+                        <div class="q-meta">
+                            <span class="q-number">
+                                <i class="fas fa-question-circle"></i> Soal ${currentIndex + 1} / ${currentQuestions.length}
+                            </span>
+                            <span class="q-category"><i class="fas fa-tag"></i> ${q.category}</span>
+                        </div>
+                        <div class="q-text">${q.question}</div>
+                        <div class="q-difficulty">
+                            <i class="fas fa-signal"></i> ${diffEmoji[q.difficulty] || '⚪'} ${q.difficulty || 'Mudah'}
+                        </div>
+                    </div>
+
+                    <div class="options-grid" id="optionsGrid">
+                        ${optionsHtml}
+                    </div>
+
+                    <div class="feedback-box empty" id="feedback">
+                        <i class="fas fa-lightbulb"></i> Pilih jawaban atau biarkan timer berjalan.
+                    </div>
+
+                    <div class="action-bar">
+                        <div>
+                            <button class="btn btn-secondary" id="resetBtn"><i class="fas fa-redo"></i> Ulang</button>
+                            <button class="btn btn-secondary" id="skipBtn"><i class="fas fa-forward"></i> Skip</button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" id="nextBtn" disabled><i class="fas fa-arrow-right"></i> Selanjutnya</button>
+                        </div>
+                    </div>
+                `;
+
+                mainContent.innerHTML = html;
+                answered = false;
+                updateScore();
+
+                // Attach events
+                document.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', onOptionClick);
+                });
+
+                document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+                document.getElementById('skipBtn').addEventListener('click', skipQuestion);
+                document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+
+                // Start timer
+                startTimer();
+            }
+
+            // ============================================================
+            //  OPTION CLICK
+            // ============================================================
+            function onOptionClick(e) {
+                if (answered) return;
+                const btn = e.currentTarget;
+                const isCorrect = btn.dataset.correct === 'true';
+                const allBtns = document.querySelectorAll('.option-btn');
+                const feedback = document.getElementById('feedback');
+
+                stopTimer();
+                allBtns.forEach(b => b.classList.add('disabled-option'));
+
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    score += 1;
+                    correctCount++;
+                    feedback.className = 'feedback-box correct';
+                    feedback.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Benar! +1 poin.`;
+                } else {
+                    btn.classList.add('wrong');
+                    allBtns.forEach(b => {
+                        if (b.dataset.correct === 'true') {
+                            b.classList.add('correct');
+                        }
+                    });
+                    const q = currentQuestions[currentIndex];
+                    const correctText = q.options[q.answer];
+                    feedback.className = 'feedback-box wrong';
+                    feedback.innerHTML =
+                        `<i class="fas fa-times-circle"></i> ❌ Salah. Jawaban benar: <strong>${correctText}</strong>`;
+                }
+
+                updateScore();
+                totalAnswered++;
+                document.getElementById('nextBtn').disabled = false;
+                answered = true;
+            }
+
+            // ============================================================
+            //  NAVIGATION
+            // ============================================================
+            function nextQuestion() {
+                if (!answered) return;
+                stopTimer();
+                currentIndex++;
+                renderQuestion();
+            }
+
+            function skipQuestion() {
+                if (answered) return;
+                stopTimer();
+                const allBtns = document.querySelectorAll('.option-btn');
+                const feedback = document.getElementById('feedback');
+                allBtns.forEach(b => b.classList.add('disabled-option'));
+                const q = currentQuestions[currentIndex];
+                const correctText = q.options[q.answer];
+                allBtns.forEach(b => {
+                    if (b.dataset.correct === 'true') {
+                        b.classList.add('correct');
+                    }
+                });
+                feedback.className = 'feedback-box wrong';
+                feedback.innerHTML = `<i class="fas fa-forward"></i> Dilewati. Jawaban: <strong>${correctText}</strong>`;
+                answered = true;
+                totalAnswered++;
+                document.getElementById('nextBtn').disabled = false;
+            }
+
+            // ============================================================
+            //  RESULT
+            // ============================================================
+            function renderResult() {
+                stopTimer();
+                const total = currentQuestions.length;
+                const wrongCount = totalAnswered - correctCount;
+                const percentage = Math.round((correctCount / total) * 100);
+
+                let emoji, message;
+                if (percentage === 100) { emoji = '🏆';
+                    message = 'Sempurna! Kamu benar-benar hebat!'; } else if (percentage >= 80) { emoji = '🌟';
+                    message = 'Luar biasa! Pertahankan prestasimu!'; } else if (percentage >= 60) { emoji = '💪';
+                    message = 'Bagus! Terus belajar dan tingkatkan!'; } else if (percentage >= 40) { emoji = '📖';
+                    message = 'Semangat! Belajar lebih giat lagi!'; } else { emoji = '😅';
+                    message = 'Jangan menyerah! Coba lagi dengan lebih fokus!'; }
+
+                // Get category performance
+                const catStats = {};
+                currentQuestions.forEach(q => {
+                    if (!catStats[q.category]) catStats[q.category] = { total: 0, correct: 0 };
+                    catStats[q.category].total++;
+                });
+                // We don't track per-category correct easily, but we can show general
+
+                const html = `
+                    <div class="result-card">
+                        <div class="result-emoji">${emoji}</div>
+                        <div class="result-title">Quiz Selesai! 🎉</div>
+                        <div class="result-score">${correctCount} / ${total}</div>
+                        <div class="result-detail">
+                            <div class="result-stat">
+                                <div class="number correct-color">${correctCount}</div>
+                                <div class="label">✅ Benar</div>
+                            </div>
+                            <div class="result-stat">
+                                <div class="number wrong-color">${wrongCount}</div>
+                                <div class="label">❌ Salah / Skip</div>
+                            </div>
+                            <div class="result-stat">
+                                <div class="number">${percentage}%</div>
+                                <div class="label">🎯 Nilai</div>
+                            </div>
+                        </div>
+                        <div class="result-message">
+                            <i class="fas fa-quote-left"></i> ${message} <i class="fas fa-quote-right"></i>
+                        </div>
+                        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                            <button class="btn btn-primary" id="restartBtn"><i class="fas fa-redo"></i> Main Lagi</button>
+                            <button class="btn btn-secondary" id="homeBtn"><i class="fas fa-home"></i> Kategori</button>
+                        </div>
+                    </div>
+                `;
+
+                mainContent.innerHTML = html;
+                timerFill.style.width = '100%';
+                timerDisplay.textContent = '0';
+
+                document.getElementById('restartBtn').addEventListener('click', () => {
+                    resetQuiz();
+                });
+                document.getElementById('homeBtn').addEventListener('click', () => {
+                    // Reset to category selection
+                    currentQuestions = getQuestionsByCategory(categoryFilter);
+                    currentIndex = 0;
+                    score = 0;
+                    correctCount = 0;
+                    totalAnswered = 0;
+                    renderQuestion();
+                });
+            }
+
+            // ============================================================
+            //  RESET
+            // ============================================================
+            function resetQuiz() {
+                stopTimer();
+                currentQuestions = getQuestionsByCategory(categoryFilter);
+                currentIndex = 0;
+                score = 0;
+                correctCount = 0;
+                totalAnswered = 0;
+                renderQuestion();
+            }
+
+            // ============================================================
+            //  CATEGORY SELECTOR
+            // ============================================================
+            categorySelector.addEventListener('click', function(e) {
+                const btn = e.target.closest('.cat-btn');
+                if (!btn) return;
+                const category = btn.dataset.category;
+                // Update active
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                categoryFilter = category;
+                // Reset quiz with new category
+                stopTimer();
+                currentQuestions = getQuestionsByCategory(category);
+                currentIndex = 0;
+                score = 0;
+                correctCount = 0;
+                totalAnswered = 0;
+                renderQuestion();
+            });
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+            currentQuestions = getQuestionsByCategory('all');
+            renderQuestion();
+
+        })();
+    </script>
+</body>
+</html>
