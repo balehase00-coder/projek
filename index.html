@@ -3,10 +3,36 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎯 Quiz Master - Aplikasi Kuis Pelajar</title>
+    <title>🏆 Quiz Champion - Aplikasi Kuis Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
+        /* ============================================================
+           ROOT VARIABLES & RESET
+           ============================================================ */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --gold: #ffd700;
+            --gold-dark: #f7971e;
+            --green: #2ecc71;
+            --green-dark: #27ae60;
+            --red: #e74c3c;
+            --red-dark: #c0392b;
+            --blue: #3498db;
+            --purple: #9b59b6;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --radius: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,178 +40,305 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             margin: 0;
+            color: var(--text-primary);
+            overflow-x: hidden;
         }
 
-        .app-container {
-            max-width: 850px;
+        /* Background Glow Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(247, 151, 30, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(155, 89, 182, 0.06) 0%, transparent 50%);
+            z-index: 0;
+            animation: floatBg 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatBg {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(2%, 2%) rotate(3deg);
+            }
+        }
+
+        .app-wrapper {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            padding: 35px 32px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            transition: all 0.3s ease;
+            max-width: 920px;
         }
 
-        /* Header */
+        /* ============================================================
+           MAIN CONTAINER
+           ============================================================ */
+        .app-container {
+            background: var(--bg-secondary);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 32px 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-dark), var(--purple), transparent);
+            opacity: 0.6;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
         .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
             gap: 12px;
         }
 
         .app-title {
             font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .app-title .icon {
+            font-size: 34px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
-        .app-title i {
-            font-size: 32px;
-            color: #ffd200;
+        .app-title .text {
+            background: linear-gradient(135deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .app-title .badge {
+            font-size: 12px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--bg-primary);
+            padding: 2px 14px;
+            border-radius: 40px;
+            letter-spacing: 0.5px;
         }
 
         .header-stats {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .stat-badge {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--bg-card);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--border-color);
             padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 15px;
+            border-radius: 60px;
+            font-size: 14px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #e0e0f0;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .stat-badge:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
         }
 
         .stat-badge i {
-            color: #ffd700;
+            color: var(--gold);
+            font-size: 16px;
         }
 
         .stat-badge .value {
             color: #fff;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            padding: 0 12px;
-            border-radius: 30px;
-            font-weight: 700;
-            color: #1a1a2e;
+            font-weight: 800;
         }
 
-        /* Timer */
-        .timer-bar {
+        .stat-badge .value.gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ============================================================
+           PROGRESS
+           ============================================================ */
+        .progress-section {
+            margin-bottom: 24px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
             width: 100%;
             height: 6px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            margin-bottom: 28px;
             overflow: hidden;
             position: relative;
         }
 
-        .timer-fill {
+        .progress-fill {
             height: 100%;
-            width: 100%;
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--purple));
             border-radius: 20px;
-            transition: width 0.3s linear;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
-        .timer-fill.warning {
-            background: linear-gradient(90deg, #f7971e, #ffd200);
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -2px;
+            width: 12px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            filter: blur(4px);
+            opacity: 0.8;
+            animation: glowPulse 1.5s infinite;
         }
 
-        .timer-fill.danger {
-            background: linear-gradient(90deg, #e74c3c, #c0392b);
-            animation: pulse 0.5s infinite;
-        }
-
-        @keyframes pulse {
+        @keyframes glowPulse {
             0%,
             100% {
-                opacity: 1;
+                opacity: 0.5;
+                transform: scale(1);
             }
             50% {
-                opacity: 0.5;
+                opacity: 1;
+                transform: scale(1.3);
             }
         }
 
-        /* Category Selector */
-        .category-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* ============================================================
+           CATEGORY SELECTOR - MODERN CHIPS
+           ============================================================ */
+        .category-section {
+            margin-bottom: 22px;
         }
 
-        .cat-btn {
+        .category-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px 2px 12px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+        }
+
+        .cat-chip {
+            flex-shrink: 0;
             padding: 8px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.04);
-            color: #b0b0d0;
-            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
-        .cat-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 215, 0, 0.3);
+        .cat-chip:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
             transform: translateY(-2px);
         }
 
-        .cat-btn.active {
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            color: #1a1a2e;
-            border-color: #ffd200;
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        .cat-chip.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(247, 151, 30, 0.15));
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
         }
 
-        .cat-btn i {
-            font-size: 16px;
+        .cat-chip i {
+            font-size: 14px;
         }
 
-        /* Question Card */
+        .cat-chip .count {
+            font-size: 11px;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        /* ============================================================
+           QUESTION CARD
+           ============================================================ */
         .question-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 28px;
-            padding: 30px 28px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 28px 26px;
+            border: 1px solid var(--border-color);
             backdrop-filter: blur(4px);
-            margin-bottom: 25px;
+            margin-bottom: 22px;
+            transition: var(--transition);
+        }
+
+        .question-card:hover {
+            border-color: var(--border-hover);
         }
 
         .q-meta {
@@ -194,60 +347,79 @@
             align-items: center;
             margin-bottom: 14px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .q-number {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 400;
-            color: #a0a0c0;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .q-number i {
-            color: #ffd700;
+            color: var(--gold);
         }
 
         .q-category {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.12);
-            color: #ffd700;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 4px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 16px;
             border-radius: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
+            background: rgba(255, 215, 0, 0.08);
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .q-text {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             line-height: 1.5;
-            color: #ffffff;
-            margin-bottom: 6px;
+            color: #fff;
+            margin-bottom: 10px;
         }
 
         .q-difficulty {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
-            color: #8888aa;
-            margin-top: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
         }
 
-        .q-difficulty i {
-            font-size: 14px;
+        .q-difficulty .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        /* Options */
+        .q-difficulty .dot.easy {
+            background: var(--green);
+        }
+        .q-difficulty .dot.medium {
+            background: var(--gold);
+        }
+        .q-difficulty .dot.hard {
+            background: var(--red);
+        }
+
+        /* ============================================================
+           OPTIONS
+           ============================================================ */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin: 22px 0 16px;
+            margin: 20px 0 16px;
         }
 
         @media (max-width: 600px) {
@@ -257,63 +429,111 @@
         }
 
         .option-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
             border-radius: 16px;
             padding: 16px 20px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
-            color: #eaeaf5;
+            color: var(--text-primary);
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 14px;
-            backdrop-filter: blur(2px);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: var(--transition);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
         }
 
         .option-btn:hover:not(.disabled-option) {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-btn:hover:not(.disabled-option)::before {
+            opacity: 1;
         }
 
         .option-label {
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            min-width: 36px;
-            height: 36px;
+            min-width: 34px;
+            height: 34px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
             font-weight: 700;
-            font-size: 14px;
-            color: #c0c0e0;
+            font-size: 13px;
+            color: var(--text-secondary);
             flex-shrink: 0;
+            transition: var(--transition);
         }
 
         .option-btn.correct {
-            border-color: #2ecc71;
-            background: rgba(46, 204, 113, 0.15);
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+            border-color: var(--green);
+            background: rgba(46, 204, 113, 0.08);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1), 0 8px 30px rgba(46, 204, 113, 0.1);
+            animation: correctPulse 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .option-btn.correct .option-label {
-            background: #2ecc71;
+            background: var(--green);
             color: #fff;
         }
 
         .option-btn.wrong {
-            border-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.15);
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+            border-color: var(--red);
+            background: rgba(231, 76, 60, 0.08);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+            animation: wrongShake 0.5s ease;
+        }
+
+        @keyframes wrongShake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-6px);
+            }
+            40% {
+                transform: translateX(6px);
+            }
+            60% {
+                transform: translateX(-4px);
+            }
+            80% {
+                transform: translateX(4px);
+            }
         }
 
         .option-btn.wrong .option-label {
-            background: #e74c3c;
+            background: var(--red);
             color: #fff;
         }
 
@@ -325,65 +545,82 @@
         .option-btn.disabled-option:hover {
             transform: none;
             box-shadow: none;
+            border-color: var(--border-color);
         }
 
-        /* Feedback */
+        /* ============================================================
+           FEEDBACK
+           ============================================================ */
         .feedback-box {
-            margin-top: 18px;
+            margin-top: 16px;
             padding: 16px 22px;
             border-radius: 16px;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 14px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             min-height: 60px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .feedback-box i {
-            font-size: 24px;
+            font-size: 22px;
             width: 32px;
             text-align: center;
         }
 
         .feedback-box.correct {
-            border-color: #2ecc71;
-            background: rgba(46, 204, 113, 0.08);
-            color: #a8f0c0;
+            border-color: var(--green);
+            background: rgba(46, 204, 113, 0.06);
+            color: #8fdfb0;
         }
 
         .feedback-box.wrong {
-            border-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.08);
+            border-color: var(--red);
+            background: rgba(231, 76, 60, 0.06);
             color: #f5a0a0;
         }
 
         .feedback-box.empty {
-            color: #8888aa;
+            color: var(--text-secondary);
         }
 
-        /* Actions */
+        .feedback-box .highlight {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* ============================================================
+           ACTION BAR
+           ============================================================ */
         .action-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-top: 8px;
+            margin-top: 6px;
+        }
+
+        .action-left,
+        .action-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            font-family: 'Poppins', sans-serif;
-            padding: 14px 30px;
+            font-family: 'Inter', sans-serif;
+            padding: 12px 26px;
             border: none;
             border-radius: 60px;
-            font-weight: 600;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 14px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -391,166 +628,276 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            color: #1a1a2e;
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25);
-            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--bg-primary);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.15);
         }
 
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.35);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.25);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: #c0c0e0;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .btn-secondary:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
             transform: translateY(-2px);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
             color: #fff;
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.25);
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.15);
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
             color: #fff;
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25);
+            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.15);
         }
 
         .btn:disabled {
-            opacity: 0.35;
+            opacity: 0.3;
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
         }
 
         .btn i {
-            font-size: 18px;
+            font-size: 16px;
         }
 
-        /* Result */
+        /* ============================================================
+           RESULT CARD - PREMIUM
+           ============================================================ */
         .result-card {
             text-align: center;
-            padding: 30px 20px 20px;
+            padding: 20px 10px 10px;
         }
 
         .result-emoji {
             font-size: 80px;
-            margin-bottom: 10px;
-            animation: bounceIn 0.6s;
+            margin-bottom: 6px;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: inline-block;
         }
 
         @keyframes bounceIn {
             0% {
-                transform: scale(0);
+                transform: scale(0) rotate(-10deg);
+                opacity: 0;
             }
-            50% {
-                transform: scale(1.2);
-            }
-            70% {
-                transform: scale(0.9);
+            60% {
+                transform: scale(1.1) rotate(3deg);
+                opacity: 1;
             }
             100% {
-                transform: scale(1);
+                transform: scale(1) rotate(0deg);
             }
         }
 
         .result-title {
-            font-size: 34px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        .result-score {
-            font-size: 56px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #fff, var(--gold));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin: 8px 0;
         }
 
-        .result-detail {
+        .result-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .result-score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 12px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: conic-gradient(var(--gold) var(--pct, 0%), var(--bg-card) var(--pct, 0%));
+            position: relative;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.1);
+        }
+
+        .result-score-circle::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+        }
+
+        .result-score-circle .score-number {
+            position: relative;
+            z-index: 1;
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+
+        .result-score-circle .score-label {
+            position: relative;
+            z-index: 1;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .result-details {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin: 20px 0 30px;
+            gap: 30px;
+            margin: 20px 0 24px;
             flex-wrap: wrap;
         }
 
         .result-stat {
             text-align: center;
+            background: var(--bg-card);
+            padding: 14px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            min-width: 100px;
         }
 
         .result-stat .number {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 26px;
+            font-weight: 800;
             color: #fff;
         }
 
-        .result-stat .label {
-            font-size: 14px;
-            color: #8888aa;
-            margin-top: 2px;
+        .result-stat .number.green {
+            color: var(--green);
+        }
+        .result-stat .number.red {
+            color: var(--red);
+        }
+        .result-stat .number.gold {
+            color: var(--gold);
         }
 
-        .result-stat .number.correct-color {
-            color: #2ecc71;
-        }
-        .result-stat .number.wrong-color {
-            color: #e74c3c;
+        .result-stat .label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .result-message {
-            font-size: 18px;
-            color: #c0c0e0;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.04);
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            padding: 16px 24px;
+            background: var(--bg-card);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
         }
 
-        /* Responsive */
-        @media (max-width: 650px) {
+        .result-message strong {
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           ACHIEVEMENTS / BADGES
+           ============================================================ */
+        .achievement-section {
+            margin: 16px 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .achievement-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-card);
+            padding: 10px 20px;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .achievement-badge.unlocked {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.06);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .achievement-badge i {
+            font-size: 20px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 700px) {
             .app-container {
                 padding: 22px 16px;
+                border-radius: 20px;
             }
             .app-title {
                 font-size: 22px;
             }
+            .app-title .badge {
+                font-size: 10px;
+                padding: 2px 10px;
+            }
             .q-text {
-                font-size: 20px;
+                font-size: 19px;
             }
             .option-btn {
                 padding: 14px 16px;
-                font-size: 15px;
-            }
-            .btn {
-                padding: 12px 22px;
                 font-size: 14px;
             }
-            .stat-badge {
+            .btn {
+                padding: 10px 20px;
                 font-size: 13px;
+            }
+            .stat-badge {
+                font-size: 12px;
                 padding: 6px 14px;
             }
-            .result-score {
-                font-size: 42px;
+            .result-score-circle {
+                width: 130px;
+                height: 130px;
             }
-            .result-detail {
-                gap: 20px;
+            .result-score-circle .score-number {
+                font-size: 34px;
             }
-            .cat-btn {
+            .result-details {
+                gap: 12px;
+            }
+            .result-stat {
+                padding: 12px 16px;
+                min-width: 80px;
+            }
+            .result-stat .number {
+                font-size: 22px;
+            }
+            .cat-chip {
                 font-size: 12px;
                 padding: 6px 14px;
             }
@@ -561,51 +908,143 @@
                 flex-direction: column;
                 align-items: stretch;
             }
+            .header-stats {
+                justify-content: space-between;
+            }
             .action-bar {
+                flex-direction: column;
+            }
+            .action-left,
+            .action-right {
+                width: 100%;
                 justify-content: center;
             }
-            .options-grid {
-                gap: 8px;
+            .btn {
+                flex: 1;
+                justify-content: center;
             }
+        }
+
+        /* ============================================================
+           TOAST NOTIFICATION
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i {
+            font-size: 20px;
+        }
+        .toast .icon-success {
+            color: var(--green);
+        }
+        .toast .icon-error {
+            color: var(--red);
+        }
+        .toast .icon-info {
+            color: var(--gold);
         }
     </style>
 </head>
 <body>
-    <div class="app-container" id="app">
-        <!-- Header -->
-        <div class="app-header">
-            <div class="app-title">
-                <i class="fas fa-brain"></i> Quiz Master
-            </div>
-            <div class="header-stats">
-                <div class="stat-badge">
-                    <i class="fas fa-star"></i> Skor: <span class="value" id="scoreDisplay">0</span>
+
+    <!-- ====== TOAST ====== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle icon-success"></i>
+        <span id="toastMessage">Selamat!</span>
+    </div>
+
+    <!-- ====== APP ====== -->
+    <div class="app-wrapper">
+        <div class="app-container" id="app">
+
+            <!-- HEADER -->
+            <div class="app-header">
+                <div class="app-title">
+                    <span class="icon">🏆</span>
+                    <span class="text">Quiz Champion</span>
+                    <span class="badge">v2.0</span>
                 </div>
-                <div class="stat-badge">
-                    <i class="fas fa-clock"></i> <span id="timerDisplay">15</span>s
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <i class="fas fa-star"></i> Skor: <span class="value gold" id="scoreDisplay">0</span>
+                    </div>
+                    <div class="stat-badge">
+                        <i class="fas fa-trophy"></i> <span id="streakDisplay">0</span>🔥
+                    </div>
+                    <div class="stat-badge">
+                        <i class="fas fa-clock"></i> <span id="timerDisplay">15</span>s
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Timer -->
-        <div class="timer-bar">
-            <div class="timer-fill" id="timerFill"></div>
-        </div>
+            <!-- PROGRESS -->
+            <div class="progress-section">
+                <div class="progress-top">
+                    <span id="progressText">Soal 0 / 0</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
 
-        <!-- Category Selector -->
-        <div class="category-selector" id="categorySelector">
-            <button class="cat-btn active" data-category="all"><i class="fas fa-globe"></i> Semua</button>
-            <button class="cat-btn" data-category="Matematika"><i class="fas fa-calculator"></i> Matematika</button>
-            <button class="cat-btn" data-category="IPA"><i class="fas fa-flask"></i> IPA</button>
-            <button class="cat-btn" data-category="Bahasa Indonesia"><i class="fas fa-book"></i> Bahasa</button>
-            <button class="cat-btn" data-category="Bahasa Inggris"><i class="fas fa-language"></i> Inggris</button>
-            <button class="cat-btn" data-category="IPS"><i class="fas fa-globe-asia"></i> IPS</button>
-            <button class="cat-btn" data-category="Seni"><i class="fas fa-palette"></i> Seni</button>
-            <button class="cat-btn" data-category="Olahraga"><i class="fas fa-running"></i> Olahraga</button>
-        </div>
+            <!-- CATEGORIES -->
+            <div class="category-section">
+                <div class="category-scroll" id="categorySelector">
+                    <button class="cat-chip active" data-category="all">
+                        <i class="fas fa-globe"></i> Semua <span class="count">(120+)</span>
+                    </button>
+                    <button class="cat-chip" data-category="Matematika">
+                        <i class="fas fa-calculator"></i> Matematika <span class="count">(20)</span>
+                    </button>
+                    <button class="cat-chip" data-category="IPA">
+                        <i class="fas fa-flask"></i> IPA <span class="count">(20)</span>
+                    </button>
+                    <button class="cat-chip" data-category="Bahasa Indonesia">
+                        <i class="fas fa-book"></i> Bahasa <span class="count">(15)</span>
+                    </button>
+                    <button class="cat-chip" data-category="Bahasa Inggris">
+                        <i class="fas fa-language"></i> Inggris <span class="count">(15)</span>
+                    </button>
+                    <button class="cat-chip" data-category="IPS">
+                        <i class="fas fa-globe-asia"></i> IPS <span class="count">(15)</span>
+                    </button>
+                    <button class="cat-chip" data-category="Seni">
+                        <i class="fas fa-palette"></i> Seni <span class="count">(10)</span>
+                    </button>
+                    <button class="cat-chip" data-category="Olahraga">
+                        <i class="fas fa-running"></i> Olahraga <span class="count">(10)</span>
+                    </button>
+                </div>
+            </div>
 
-        <!-- Main Content -->
-        <div id="mainContent"></div>
+            <!-- MAIN CONTENT -->
+            <div id="mainContent"></div>
+
+        </div>
     </div>
 
     <script>
@@ -613,289 +1052,324 @@
             'use strict';
 
             // ============================================================
-            //  BANK SOAL - 120+ PERTANYAAN DARI BERBAGAI MATA PELAJARAN
+            //  BANK SOAL - 130+ PERTANYAAN
             // ============================================================
             const allQuestions = [
-                // ===== MATEMATIKA (20 Soal) =====
-                { category: 'Matematika', difficulty: 'Mudah',
-                question: 'Berapa hasil dari 12 × 8?', options: ['86', '96', '106', '76'], answer: 1 },
-                { category: 'Matematika', difficulty: 'Mudah', question: 'Akar kuadrat dari 144 adalah?', options: ['10',
-                        '11', '12', '13'
-                    ], answer: 2 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika a = 5 dan b = 7, maka a² + b² = ?',
-                    options: ['74', '64', '84', '54'], answer: 0 },
-                { category: 'Matematika', difficulty: 'Mudah', question: 'Berapa nilai dari 3! (faktorial)?',
-                    options: ['3', '6', '9', '12'], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sedang',
-                    question: 'Keliling lingkaran dengan jari-jari 7 cm (π=22/7) adalah?', options: ['44 cm', '22 cm',
-                        '88 cm', '66 cm'
-                    ], answer: 0 },
-                { category: 'Matematika', difficulty: 'Mudah', question: 'Berapa 25% dari 200?', options: ['40', '50',
-                        '60', '70'
+                // ===== MATEMATIKA (20) =====
+                { category: 'Matematika', difficulty: 'Mudah', question: '12 × 8 = ?', options: ['86', '96', '106',
+                        '76'
                     ], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Hasil dari 15 + 6 × 3 adalah?', options: ['33',
-                        '63', '21', '27'
+                { category: 'Matematika', difficulty: 'Mudah', question: '√144 = ?', options: ['10', '11', '12', '13'],
+                    answer: 2 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika a=5, b=7, maka a²+b² = ?', options: ['74',
+                        '64', '84', '54'
                     ], answer: 0 },
-                { category: 'Matematika', difficulty: 'Mudah', question: 'Luas persegi dengan sisi 9 cm adalah?',
-                    options: ['72 cm²', '81 cm²', '90 cm²', '100 cm²'], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Berapa hasil dari 2⁵?', options: ['16', '32',
-                        '64', '128'
+                { category: 'Matematika', difficulty: 'Mudah', question: '3! = ?', options: ['3', '6', '9', '12'],
+                    answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Keliling lingkaran r=7 cm (π=22/7) = ?',
+                    options: ['44 cm', '22 cm', '88 cm', '66 cm'], answer: 0 },
+                { category: 'Matematika', difficulty: 'Mudah', question: '25% dari 200 = ?', options: ['40', '50', '60',
+                        '70'
                     ], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika x = 10, maka 3x - 5 = ?', options: ['20',
+                { category: 'Matematika', difficulty: 'Sedang', question: '15 + 6 × 3 = ?', options: ['33', '63', '21',
+                        '27'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Mudah', question: 'Luas persegi sisi 9 cm = ?', options: ['72 cm²',
+                        '81 cm²', '90 cm²', '100 cm²'
+                    ], answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: '2⁵ = ?', options: ['16', '32', '64', '128'],
+                    answer: 1 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Jika x=10, maka 3x-5 = ?', options: ['20',
                         '25', '30', '35'
                     ], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Volume kubus dengan rusuk 4 cm adalah?',
-                    options: ['64 cm³', '48 cm³', '32 cm³', '16 cm³'], answer: 0 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Hasil dari 4/5 + 3/10 adalah?', options: [
-                        '7/10', '11/10', '1', '13/10'
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Volume kubus rusuk 4 cm = ?', options: [
+                        '64 cm³', '48 cm³', '32 cm³', '16 cm³'
+                    ], answer: 0 },
+                { category: 'Matematika', difficulty: 'Sedang', question: '4/5 + 3/10 = ?', options: ['7/10', '11/10',
+                        '1', '13/10'
                     ], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Berapa nilai x dari 2x + 5 = 21?', options: [
-                        '6', '7', '8', '9'
+                { category: 'Matematika', difficulty: 'Sulit', question: '2x + 5 = 21, x = ?', options: ['6', '7', '8',
+                        '9'
                     ], answer: 2 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Luas segitiga dengan alas 10 cm dan tinggi 8 cm?',
+                { category: 'Matematika', difficulty: 'Sulit', question: 'Luas segitiga alas 10 cm, tinggi 8 cm = ?',
                     options: ['40 cm²', '80 cm²', '20 cm²', '60 cm²'], answer: 0 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Hasil dari (3 + 4)² adalah?', options: ['49',
-                        '25', '36', '64'
-                    ], answer: 0 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'KPK dari 12 dan 18 adalah?', options: ['24',
-                        '36', '48', '72'
+                { category: 'Matematika', difficulty: 'Sulit', question: '(3+4)² = ?', options: ['49', '25', '36', '64'],
+                    answer: 0 },
+                { category: 'Matematika', difficulty: 'Sedang', question: 'KPK 12 dan 18 = ?', options: ['24', '36',
+                        '48', '72'
                     ], answer: 1 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Nilai dari sin 30° adalah?', options: ['1/2',
-                        '1/√2', '√3/2', '1'
+                { category: 'Matematika', difficulty: 'Sulit', question: 'sin 30° = ?', options: ['1/2', '1/√2',
+                        '√3/2', '1'
                     ], answer: 0 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Berapa akar dari x² - 16 = 0?', options: ['4',
-                        '-4', '±4', '8'
+                { category: 'Matematika', difficulty: 'Sulit', question: 'x² - 16 = 0, x = ?', options: ['4', '-4',
+                        '±4', '8'
                     ], answer: 2 },
-                { category: 'Matematika', difficulty: 'Sedang', question: 'Sebuah balok memiliki panjang 5 cm, lebar 3 cm, tinggi 4 cm. Volumenya?',
+                { category: 'Matematika', difficulty: 'Sedang', question: 'Balok p=5, l=3, t=4, volume = ?',
                     options: ['60 cm³', '12 cm³', '20 cm³', '40 cm³'], answer: 0 },
-                { category: 'Matematika', difficulty: 'Sulit', question: 'Hasil dari log 1000 adalah?', options: ['1',
-                        '2', '3', '4'
-                    ], answer: 2 },
+                { category: 'Matematika', difficulty: 'Sulit', question: 'log 1000 = ?', options: ['1', '2', '3', '4'],
+                    answer: 2 },
 
-                // ===== IPA (20 Soal) =====
-                { category: 'IPA', difficulty: 'Mudah', question: 'Organ yang bertugas memompa darah adalah?',
-                    options: ['Paru-paru', 'Jantung', 'Ginjal', 'Hati'], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Tumbuhan hijau menghasilkan makanannya sendiri melalui?',
-                    options: ['Respirasi', 'Fotosintesis', 'Fermentasi', 'Transpirasi'], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Gaya yang menarik benda ke pusat bumi adalah?',
-                    options: ['Gesekan', 'Gravitasi', 'Magnet', 'Dorongan'], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Berikut yang termasuk sumber energi terbarukan adalah?',
-                    options: ['Minyak', 'Batu bara', 'Matahari', 'Gas alam'], answer: 2 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Bagian sel yang berfungsi sebagai pengatur aktivitas adalah?',
-                    options: ['Membran', 'Nukleus', 'Sitoplasma', 'Mitokondria'], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Planet terbesar dalam tata surya adalah?', options: [
+                // ===== IPA (20) =====
+                { category: 'IPA', difficulty: 'Mudah', question: 'Organ pemompa darah adalah?', options: ['Paru-paru',
+                        'Jantung', 'Ginjal', 'Hati'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Tumbuhan menghasilkan makanan melalui?', options: [
+                        'Respirasi', 'Fotosintesis', 'Fermentasi', 'Transpirasi'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Gaya tarik benda ke bumi adalah?', options: [
+                        'Gesekan', 'Gravitasi', 'Magnet', 'Dorongan'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Sumber energi terbarukan?', options: ['Minyak',
+                        'Batu bara', 'Matahari', 'Gas alam'
+                    ], answer: 2 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Pengatur aktivitas sel adalah?', options: ['Membran',
+                        'Nukleus', 'Sitoplasma', 'Mitokondria'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Planet terbesar di tata surya?', options: [
                         'Saturnus', 'Jupiter', 'Uranus', 'Neptunus'
                     ], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Perubahan wujud dari cair ke padat disebut?',
-                    options: ['Menguap', 'Membeku', 'Mencair', 'Menyublim'], answer: 1 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Alat untuk mengukur suhu adalah?', options: [
-                        'Barometer', 'Termometer', 'Hidrometer', 'Manometer'
+                { category: 'IPA', difficulty: 'Mudah', question: 'Cair ke padat disebut?', options: ['Menguap',
+                        'Membeku', 'Mencair', 'Menyublim'
                     ], answer: 1 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Proses pemisahan zat dengan penyaringan disebut?',
-                    options: ['Distilasi', 'Evaporasi', 'Kromatografi', 'Filtrasi'], answer: 3 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Sistem pernapasan manusia terdiri dari...',
-                    options: ['Jantung dan paru-paru', 'Paru-paru dan trakea', 'Hati dan ginjal', 'Otak dan sumsum'],
-                    answer: 1 },
-                { category: 'IPA', difficulty: 'Sulit', question: 'Rumus kimia untuk air adalah?', options: ['H₂O',
-                        'CO₂', 'NaCl', 'HCl'
+                { category: 'IPA', difficulty: 'Mudah', question: 'Alat ukur suhu adalah?', options: ['Barometer',
+                        'Termometer', 'Hidrometer', 'Manometer'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Penyaringan zat disebut?', options: ['Distilasi',
+                        'Evaporasi', 'Kromatografi', 'Filtrasi'
+                    ], answer: 3 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Sistem pernapasan terdiri dari?', options: [
+                        'Jantung & paru-paru', 'Paru-paru & trakea', 'Hati & ginjal', 'Otak & sumsum'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Rumus kimia air?', options: ['H₂O', 'CO₂', 'NaCl',
+                        'HCl'
                     ], answer: 0 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Bagian mata yang berfungsi sebagai lensa adalah?',
-                    options: ['Kornea', 'Lensa kristal', 'Retina', 'Pupil'], answer: 1 },
-                { category: 'IPA', difficulty: 'Sulit', question: 'Kecepatan cahaya di ruang hampa adalah...',
-                    options: ['3×10⁸ m/s', '3×10⁶ m/s', '3×10¹⁰ m/s', '3×10⁴ m/s'], answer: 0 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Salah satu contoh hewan vertebrata adalah?',
-                    options: ['Cacing', 'Belalang', 'Kucing', 'Udang'], answer: 2 },
-                { category: 'IPA', difficulty: 'Mudah', question: 'Apa fungsi akar pada tumbuhan?', options: [
-                        'Menyerap air', 'Fotosintesis', 'Reproduksi', 'Menopang bunga'
+                { category: 'IPA', difficulty: 'Sedang', question: 'Lensa mata adalah?', options: ['Kornea',
+                        'Lensa kristal', 'Retina', 'Pupil'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Kecepatan cahaya di vakum?', options: ['3×10⁸ m/s',
+                        '3×10⁶ m/s', '3×10¹⁰ m/s', '3×10⁴ m/s'
                     ], answer: 0 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Zat yang memiliki pH kurang dari 7 disebut?',
-                    options: ['Basa', 'Asam', 'Netral', 'Garam'], answer: 1 },
-                { category: 'IPA', difficulty: 'Sulit', question: 'Energi yang dihasilkan dari reaksi nuklir disebut?',
-                    options: ['Energi panas', 'Energi nuklir', 'Energi kimia', 'Energi listrik'], answer: 1 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Alat gerak pada manusia terdiri dari...',
-                    options: ['Tulang dan otot', 'Sendi dan tulang', 'Otot dan sendi', 'Semua benar'], answer: 3 },
-                { category: 'IPA', difficulty: 'Sulit', question: 'Hukum Newton yang menjelaskan aksi-reaksi adalah?',
-                    options: ['I', 'II', 'III', 'IV'], answer: 2 },
-                { category: 'IPA', difficulty: 'Sedang', question: 'Proses perubahan uap air menjadi air disebut?',
-                    options: ['Evaporasi', 'Kondensasi', 'Presipitasi', 'Transpirasi'], answer: 1 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Hewan vertebrata contohnya?', options: ['Cacing',
+                        'Belalang', 'Kucing', 'Udang'
+                    ], answer: 2 },
+                { category: 'IPA', difficulty: 'Mudah', question: 'Fungsi akar?', options: ['Menyerap air',
+                        'Fotosintesis', 'Reproduksi', 'Menopang bunga'
+                    ], answer: 0 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'pH < 7 disebut?', options: ['Basa', 'Asam',
+                        'Netral', 'Garam'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Energi reaksi nuklir disebut?', options: [
+                        'Energi panas', 'Energi nuklir', 'Energi kimia', 'Energi listrik'
+                    ], answer: 1 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Alat gerak manusia?', options: ['Tulang & otot',
+                        'Sendi & tulang', 'Otot & sendi', 'Semua benar'
+                    ], answer: 3 },
+                { category: 'IPA', difficulty: 'Sulit', question: 'Hukum Newton aksi-reaksi adalah?', options: ['I',
+                        'II', 'III', 'IV'
+                    ], answer: 2 },
+                { category: 'IPA', difficulty: 'Sedang', question: 'Uap air menjadi air disebut?', options: [
+                        'Evaporasi', 'Kondensasi', 'Presipitasi', 'Transpirasi'
+                    ], answer: 1 },
 
-                // ===== BAHASA INDONESIA (15 Soal) =====
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Kata baku yang benar adalah?',
-                    options: ['Aktif', 'Aktip', 'Aktifah', 'Aktifis'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Sinonim dari kata "Cepat" adalah?',
-                    options: ['Lambat', 'Kencang', 'Perlahan', 'Lembut'], answer: 1 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Antonim dari kata "Panas" adalah?',
-                    options: ['Dingin', 'Hangat', 'Sejuk', 'Gerah'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah',
-                    question: 'Kalimat baku: "Saya .... ke sekolah setiap hari."', options: ['berangkat',
-                        'berangkatkan', 'berkeberangkatan', 'keberangkatan'
+                // ===== BAHASA INDONESIA (15) =====
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Kata baku yang benar?', options: [
+                        'Aktif', 'Aktip', 'Aktifah', 'Aktifis'
                     ], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Puisi rakyat yang terdiri dari 4 baris disebut?',
-                    options: ['Pantun', 'Syair', 'Gurindam', 'Balada'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sedang',
-                    question: 'Kata berimbuhan me- yang benar: ".... buku di meja."', options: ['Meletakkan', 'Menaruh',
-                        'Mengambil', 'Menyimpan'
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Sinonim "Cepat"?', options: ['Lambat',
+                        'Kencang', 'Perlahan', 'Lembut'
+                    ], answer: 1 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Antonim "Panas"?', options: ['Dingin',
+                        'Hangat', 'Sejuk', 'Gerah'
                     ], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Huruf kapital digunakan pada awal ....',
-                    options: ['kalimat', 'kata kerja', 'kata sifat', 'kata bilangan'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Mudah',
-                    question: '"Anak itu cerdas dan rajin." Kata "cerdas" termasuk ....', options: ['kata sifat',
-                        'kata benda', 'kata kerja', 'kata ganti'
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: '"Saya .... ke sekolah" (baku)',
+                    options: ['berangkat', 'berangkatkan', 'berkeberangkatan', 'keberangkatan'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Puisi 4 baris disebut?', options: [
+                        'Pantun', 'Syair', 'Gurindam', 'Balada'
                     ], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Contoh kalimat aktif adalah?',
-                    options: ['Adik menendang bola', 'Bola ditendang adik', 'Bola itu bulat', 'Adik bermain'],
-                    answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Makna ungkapan "banting tulang" adalah?',
-                    options: ['bekerja keras', 'bermain', 'berlibur', 'bersantai'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Kalimat tidak efektif terdapat pada...',
-                    options: ['Saya membaca buku', 'Saya membaca buku di perpustakaan', 'Saya sedang membaca buku',
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Me- yang benar: ".... buku di meja"',
+                    options: ['Meletakkan', 'Menaruh', 'Mengambil', 'Menyimpan'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: 'Huruf kapital di awal?', options: [
+                        'kalimat', 'kata kerja', 'kata sifat', 'kata bilangan'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Mudah', question: '"Anak itu cerdas" - "cerdas" termasuk?',
+                    options: ['kata sifat', 'kata benda', 'kata kerja', 'kata ganti'], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Kalimat aktif contohnya?', options: [
+                        'Adik menendang bola', 'Bola ditendang adik', 'Bola itu bulat', 'Adik bermain'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: '"Banting tulang" artinya?', options: [
+                        'bekerja keras', 'bermain', 'berlibur', 'bersantai'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Kalimat tidak efektif?', options: [
+                        'Saya membaca buku', 'Saya membaca buku di perpustakaan', 'Saya sedang membaca buku',
                         'Saya membaca buku-buku'
                     ], answer: 3 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Contoh kata berimbuhan "pe-an" adalah?',
-                    options: ['Pendidikan', 'Pelajar', 'Pembaca', 'Penulis'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Unsur intrinsik cerita pendek adalah?',
-                    options: ['Tema', 'Sampul', 'Halaman', 'Penerbit'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Kata "makan" jika diberi imbuhan "me-" menjadi?',
-                    options: ['Memakan', 'Mengakan', 'Makanan', 'Termakan'], answer: 0 },
-                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Kalimat yang menggunakan majas personifikasi adalah?',
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: 'Imbuhan "pe-an" contoh?', options: [
+                        'Pendidikan', 'Pelajar', 'Pembaca', 'Penulis'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Unsur intrinsik cerpen?', options: [
+                        'Tema', 'Sampul', 'Halaman', 'Penerbit'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sedang', question: '"Makan" + me- menjadi?', options: [
+                        'Memakan', 'Mengakan', 'Makanan', 'Termakan'
+                    ], answer: 0 },
+                { category: 'Bahasa Indonesia', difficulty: 'Sulit', question: 'Majas personifikasi contoh?',
                     options: ['Angin berbisik', 'Dia secepat kilat', 'Bunga itu cantik', 'Rumah besar itu'],
                     answer: 0 },
 
-                // ===== BAHASA INGGRIS (15 Soal) =====
-                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'What is the plural of "child"?',
-                    options: ['Childs', 'Children', 'Childes', 'Childer'], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"I ____ a student." (am/is/are)',
-                    options: ['am', 'is', 'are', 'be'], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'The opposite of "hot" is?', options: [
-                        'Cold', 'Warm', 'Cool', 'Chilly'
+                // ===== BAHASA INGGRIS (15) =====
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'Plural of "child"?', options: ['Childs',
+                        'Children', 'Childes', 'Childer'
+                    ], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"I ____ a student"', options: ['am',
+                        'is', 'are', 'be'
                     ], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"She ____ to school every day." (go/goes/going)',
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'Opposite of "hot"?', options: ['Cold',
+                        'Warm', 'Cool', 'Chilly'
+                    ], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"She ____ to school" (every day)',
                     options: ['go', 'goes', 'going', 'gone'], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'What is the past tense of "eat"?',
-                    options: ['Eated', 'Ate', 'Eaten', 'Eating'], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"They ____ playing football now." (is/am/are)',
-                    options: ['is', 'am', 'are', 'be'], answer: 2 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'Past tense of "eat"?', options: [
+                        'Eated', 'Ate', 'Eaten', 'Eating'
+                    ], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Mudah', question: '"They ____ playing now"', options: [
+                        'is', 'am', 'are', 'be'
+                    ], answer: 2 },
                 { category: 'Bahasa Inggris', difficulty: 'Mudah', question: 'Which is a fruit?', options: ['Carrot',
                         'Apple', 'Potato', 'Onion'
                     ], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'The meaning of "Beautiful" is?',
-                    options: ['Cantik', 'Pintar', 'Kaya', 'Bahagia'], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"She has ____ apples." (many/much)',
-                    options: ['many', 'much', 'more', 'most'], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'What is the correct sentence?', options: [
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'Meaning of "Beautiful"?', options: [
+                        'Cantik', 'Pintar', 'Kaya', 'Bahagia'
+                    ], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"She has ____ apples"', options: [
+                        'many', 'much', 'more', 'most'
+                    ], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'Correct sentence?', options: [
                         'She go to school', 'She goes to school', 'She going to school', 'She gone to school'
                     ], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"I have ____ finished my homework." (already/yet)',
-                    options: ['already', 'yet', 'still', 'never'], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'The superlative form of "good" is?',
-                    options: ['Gooder', 'Best', 'Better', 'More good'], answer: 1 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"Would you like ____ coffee?" (some/any)',
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"I have ____ finished"', options: [
+                        'already', 'yet', 'still', 'never'
+                    ], answer: 0 },
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'Superlative of "good"?', options: [
+                        'Gooder', 'Best', 'Better', 'More good'
+                    ], answer: 1 },
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"Would you like ____ coffee?"',
                     options: ['some', 'any', 'a', 'an'], answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'Passive voice: "They eat the cake." becomes?',
+                { category: 'Bahasa Inggris', difficulty: 'Sulit', question: 'Passive: "They eat the cake"',
                     options: ['The cake is eaten', 'The cake was eaten', 'The cake ate', 'They are eaten'],
                     answer: 0 },
-                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: 'What is "mobil" in English?', options: [
+                { category: 'Bahasa Inggris', difficulty: 'Sedang', question: '"Mobil" in English?', options: [
                         'Car', 'Bus', 'Train', 'Bike'
                     ], answer: 0 },
 
-                // ===== IPS / SEJARAH (15 Soal) =====
-                { category: 'IPS', difficulty: 'Mudah', question: 'Bendera Indonesia pertama kali dikibarkan pada tahun?',
-                    options: ['1945', '1946', '1947', '1948'], answer: 0 },
-                { category: 'IPS', difficulty: 'Mudah', question: 'Siapa presiden pertama Indonesia?', options: [
-                        'Soekarno', 'Hatta', 'Suharto', 'Habibie'
+                // ===== IPS (15) =====
+                { category: 'IPS', difficulty: 'Mudah', question: 'Bendera Indonesia dikibarkan tahun?', options: [
+                        '1945', '1946', '1947', '1948'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Mudah', question: 'Pulau terbesar di Indonesia adalah?', options: [
-                        'Jawa', 'Sumatra', 'Kalimantan', 'Papua'
+                { category: 'IPS', difficulty: 'Mudah', question: 'Presiden pertama Indonesia?', options: ['Soekarno',
+                        'Hatta', 'Suharto', 'Habibie'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Pulau terbesar Indonesia?', options: ['Jawa',
+                        'Sumatra', 'Kalimantan', 'Papua'
                     ], answer: 2 },
-                { category: 'IPS', difficulty: 'Mudah', question: 'Semboyan Indonesia adalah?', options: [
-                        'Bhinneka Tunggal Ika', 'Merdeka atau Mati', 'Satyam Eva Jayate', 'Vasudhaiva Kutumbakam'
+                { category: 'IPS', difficulty: 'Mudah', question: 'Semboyan Indonesia?', options: ['Bhinneka Tunggal Ika',
+                        'Merdeka atau Mati', 'Satyam Eva Jayate', 'Vasudhaiva Kutumbakam'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Pahlawan yang dijuluki "Singa Padang" adalah?',
-                    options: ['Tuanku Imam Bonjol', 'Tjut Njak Din', 'Sultan Agung', 'Pangeran Diponegoro'],
-                    answer: 0 },
-                { category: 'IPS', difficulty: 'Mudah', question: 'Samudra yang mengelilingi Indonesia di bagian barat?',
-                    options: ['Pasifik', 'Hindia', 'Atlantik', 'Arktik'], answer: 1 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Kerajaan Islam pertama di Indonesia adalah?',
-                    options: ['Malaka', 'Demak', 'Samudra Pasai', 'Mataram'], answer: 2 },
-                { category: 'IPS', difficulty: 'Mudah', question: 'Proklamasi Kemerdekaan Indonesia dibacakan di?',
-                    options: ['Jakarta', 'Bandung', 'Surabaya', 'Yogyakarta'], answer: 0 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Siapa penemu Benua Amerika?', options: [
-                        'Vasco da Gama', 'Christopher Columbus', 'Ferdinand Magellan', 'James Cook'
+                { category: 'IPS', difficulty: 'Sedang', question: '"Singa Padang" adalah?', options: [
+                        'Tuanku Imam Bonjol', 'Tjut Njak Din', 'Sultan Agung', 'Pangeran Diponegoro'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Samudra di barat Indonesia?', options: ['Pasifik',
+                        'Hindia', 'Atlantik', 'Arktik'
                     ], answer: 1 },
-                { category: 'IPS', difficulty: 'Sulit', question: 'Perang Dunia II terjadi pada tahun?', options: [
+                { category: 'IPS', difficulty: 'Sedang', question: 'Kerajaan Islam pertama di Indonesia?', options: [
+                        'Malaka', 'Demak', 'Samudra Pasai', 'Mataram'
+                    ], answer: 2 },
+                { category: 'IPS', difficulty: 'Mudah', question: 'Proklamasi dibacakan di?', options: ['Jakarta',
+                        'Bandung', 'Surabaya', 'Yogyakarta'
+                    ], answer: 0 },
+                { category: 'IPS', difficulty: 'Sedang', question: 'Penemu Benua Amerika?', options: ['Vasco da Gama',
+                        'Christopher Columbus', 'Ferdinand Magellan', 'James Cook'
+                    ], answer: 1 },
+                { category: 'IPS', difficulty: 'Sulit', question: 'Perang Dunia II terjadi tahun?', options: [
                         '1914-1918', '1939-1945', '1941-1945', '1918-1939'
                     ], answer: 1 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Lambang negara Indonesia adalah?', options: [
+                { category: 'IPS', difficulty: 'Sedang', question: 'Lambang negara Indonesia?', options: [
                         'Garuda Pancasila', 'Banteng', 'Pohon Beringin', 'Bunga Teratai'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Sulit', question: 'Sultan Hasanuddin berasal dari?', options: ['Sulawesi',
-                        'Sumatra', 'Jawa', 'Kalimantan'
+                { category: 'IPS', difficulty: 'Sulit', question: 'Sultan Hasanuddin berasal dari?', options: [
+                        'Sulawesi', 'Sumatra', 'Jawa', 'Kalimantan'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Ibukota provinsi Jawa Timur adalah?', options: [
-                        'Surabaya', 'Semarang', 'Bandung', 'Yogyakarta'
+                { category: 'IPS', difficulty: 'Sedang', question: 'Ibukota Jawa Timur?', options: ['Surabaya',
+                        'Semarang', 'Bandung', 'Yogyakarta'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Sulit', question: 'Revolusi Industri pertama terjadi di?', options: [
+                { category: 'IPS', difficulty: 'Sulit', question: 'Revolusi Industri pertama di?', options: [
                         'Inggris', 'Prancis', 'Jerman', 'Amerika'
                     ], answer: 0 },
-                { category: 'IPS', difficulty: 'Sedang', question: 'Upacara adat "Ngaben" berasal dari?', options: [
-                        'Bali', 'Jawa', 'Sumatra', 'Sulawesi'
+                { category: 'IPS', difficulty: 'Sedang', question: 'Upacara "Ngaben" dari?', options: ['Bali',
+                        'Jawa', 'Sumatra', 'Sulawesi'
                     ], answer: 0 },
 
-                // ===== SENI BUDAYA (10 Soal) =====
-                { category: 'Seni', difficulty: 'Mudah', question: 'Alat musik tradisional dari Jawa Barat adalah?',
-                    options: ['Angklung', 'Gamelan', 'Sasando', 'Kolintang'], answer: 0 },
-                { category: 'Seni', difficulty: 'Mudah', question: 'Tarian dari Bali yang terkenal adalah?', options: [
-                        'Kecak', 'Saman', 'Piring', 'Jaipong'
+                // ===== SENI (10) =====
+                { category: 'Seni', difficulty: 'Mudah', question: 'Alat musik dari Jawa Barat?', options: ['Angklung',
+                        'Gamelan', 'Sasando', 'Kolintang'
                     ], answer: 0 },
-                { category: 'Seni', difficulty: 'Sedang', question: 'Pelukis terkenal Indonesia adalah?', options: [
-                        'Affandi', 'Radèn Saleh', 'Basuki Abdullah', 'Semua benar'
+                { category: 'Seni', difficulty: 'Mudah', question: 'Tarian dari Bali?', options: ['Kecak', 'Saman',
+                        'Piring', 'Jaipong'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Pelukis Indonesia terkenal?', options: ['Affandi',
+                        'Radèn Saleh', 'Basuki Abdullah', 'Semua benar'
                     ], answer: 3 },
-                { category: 'Seni', difficulty: 'Mudah', question: 'Warna primer adalah?', options: ['Merah, Kuning, Biru',
-                        'Merah, Hijau, Biru', 'Kuning, Hijau, Ungu', 'Biru, Jingga, Hijau'
+                { category: 'Seni', difficulty: 'Mudah', question: 'Warna primer?', options: ['Merah,Kuning,Biru',
+                        'Merah,Hijau,Biru', 'Kuning,Hijau,Ungu', 'Biru,Jingga,Hijau'
                     ], answer: 0 },
-                { category: 'Seni', difficulty: 'Sedang', question: 'Tari Saman berasal dari?', options: ['Aceh', 'Padang',
-                        'Medan', 'Riau'
+                { category: 'Seni', difficulty: 'Sedang', question: 'Tari Saman berasal dari?', options: ['Aceh',
+                        'Padang', 'Medan', 'Riau'
                     ], answer: 0 },
-                { category: 'Seni', difficulty: 'Mudah', question: 'Alat musik pukul dari Jawa Tengah adalah?',
-                    options: ['Gamelan', 'Angklung', 'Sasando', 'Tifa'], answer: 0 },
-                { category: 'Seni', difficulty: 'Sedang', question: 'Salah satu cabang seni rupa adalah?', options: [
-                        'Lukisan', 'Tarian', 'Lagu', 'Drama'
+                { category: 'Seni', difficulty: 'Mudah', question: 'Gamelan dari?', options: ['Jawa Tengah',
+                        'Sumatra', 'Bali', 'Kalimantan'
+                    ], answer: 0 },
+                { category: 'Seni', difficulty: 'Sedang', question: 'Cabang seni rupa?', options: ['Lukisan', 'Tarian',
+                        'Lagu', 'Drama'
                     ], answer: 0 },
                 { category: 'Seni', difficulty: 'Sulit', question: 'Mona Lisa dilukis oleh?', options: ['Da Vinci',
                         'Michelangelo', 'Rafael', 'Picasso'
                     ], answer: 0 },
-                { category: 'Seni', difficulty: 'Sedang', question: 'Wayang kulit berasal dari?', options: ['Jawa',
-                        'Sumatra', 'Bali', 'Kalimantan'
+                { category: 'Seni', difficulty: 'Sedang', question: 'Wayang kulit dari?', options: ['Jawa', 'Sumatra',
+                        'Bali', 'Kalimantan'
                     ], answer: 0 },
-                { category: 'Seni', difficulty: 'Sulit', question: 'Ciri khas musik jazz adalah?', options: [
-                        'Improvisasi', 'Biola', 'Gitar akustik', 'Vokal'
+                { category: 'Seni', difficulty: 'Sulit', question: 'Ciri khas jazz?', options: ['Improvisasi',
+                        'Biola', 'Gitar akustik', 'Vokal'
                     ], answer: 0 },
 
-                // ===== OLAHRAGA (10 Soal) =====
-                { category: 'Olahraga', difficulty: 'Mudah', question: 'Sepak bola dimainkan oleh berapa pemain?',
-                    options: ['9', '10', '11', '12'], answer: 2 },
-                { category: 'Olahraga', difficulty: 'Mudah', question: 'Olahraga yang menggunakan raket adalah?',
-                    options: ['Tenis', 'Sepak bola', 'Renang', 'Lari'], answer: 0 },
+                // ===== OLAHRAGA (10) =====
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Jumlah pemain sepak bola?', options: ['9',
+                        '10', '11', '12'
+                    ], answer: 2 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Olahraga menggunakan raket?', options: ['Tenis',
+                        'Sepak bola', 'Renang', 'Lari'
+                    ], answer: 0 },
                 { category: 'Olahraga', difficulty: 'Sedang', question: 'Bulu tangkis diciptakan oleh?', options: [
                         'Inggris', 'India', 'Indonesia', 'Cina'
                     ], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Mudah', question: 'Pemenang dalam lomba lari disebut?', options: [
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Pemenang lomba lari disebut?', options: [
                         'Juara', 'Pelari', 'Atlet', 'Pemenang'
                     ], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Sedang', question: 'Basket dimainkan oleh berapa pemain per tim?',
-                    options: ['5', '6', '7', '8'], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Mudah', question: 'Renang gaya bebas disebut juga?', options: [
-                        'Crawl', 'Dada', 'Punggung', 'Kupu-kupu'
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Jumlah pemain basket per tim?', options: [
+                        '5', '6', '7', '8'
                     ], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Sulit', question: 'Piala Dunia Sepak Bola pertama diadakan tahun?',
-                    options: ['1930', '1934', '1938', '1950'], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Sedang', question: 'Olahraga yang menggunakan pedang adalah?',
-                    options: ['Anggar', 'Tinju', 'Karate', 'Taekwondo'], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Mudah', question: 'Lari maraton jaraknya adalah?', options: [
-                        '42,195 km', '21 km', '10 km', '50 km'
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Renang gaya bebas = ?', options: ['Crawl',
+                        'Dada', 'Punggung', 'Kupu-kupu'
                     ], answer: 0 },
-                { category: 'Olahraga', difficulty: 'Sedang', question: 'Cabang olahraga atletik meliputi?', options: [
-                        'Lari, lompat, lempar', 'Renang, selam', 'Sepak bola, basket', 'Bulu tangkis, tenis'
+                { category: 'Olahraga', difficulty: 'Sulit', question: 'Piala Dunia pertama tahun?', options: [
+                        '1930', '1934', '1938', '1950'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Olahraga menggunakan pedang?', options: [
+                        'Anggar', 'Tinju', 'Karate', 'Taekwondo'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Mudah', question: 'Jarak maraton?', options: ['42,195 km',
+                        '21 km', '10 km', '50 km'
+                    ], answer: 0 },
+                { category: 'Olahraga', difficulty: 'Sedang', question: 'Cabang atletik meliputi?', options: [
+                        'Lari,lompat,lempar', 'Renang,selam', 'Sepak bola,basket', 'Bulu tangkis,tenis'
                     ], answer: 0 },
             ];
 
@@ -912,13 +1386,28 @@
             let categoryFilter = 'all';
             let totalAnswered = 0;
             let correctCount = 0;
+            let streak = 0;
+            let maxStreak = 0;
+            let achievements = {
+                firstBlood: false,
+                streak5: false,
+                streak10: false,
+                perfectScore: false,
+                master: false
+            };
 
-            // DOM elements
+            // DOM
             const mainContent = document.getElementById('mainContent');
             const scoreDisplay = document.getElementById('scoreDisplay');
+            const streakDisplay = document.getElementById('streakDisplay');
             const timerDisplay = document.getElementById('timerDisplay');
             const timerFill = document.getElementById('timerFill');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const progressPercent = document.getElementById('progressPercent');
             const categorySelector = document.getElementById('categorySelector');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
 
             // ============================================================
             //  HELPERS
@@ -933,20 +1422,37 @@
 
             function getQuestionsByCategory(category) {
                 if (category === 'all') return shuffleArray([...allQuestions]);
-                return shuffleArray(allQuestions.filter(q => q.category === category));
+                const filtered = allQuestions.filter(q => q.category === category);
+                return shuffleArray(filtered);
             }
 
             function updateScore() {
                 scoreDisplay.textContent = score;
             }
 
+            function updateStreak() {
+                streakDisplay.textContent = streak;
+            }
+
+            function updateProgress() {
+                const total = currentQuestions.length;
+                const done = Math.min(currentIndex, total);
+                const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+                progressFill.style.width = Math.min(pct, 100) + '%';
+                progressText.textContent = `Soal ${done} / ${total}`;
+                progressPercent.textContent = pct + '%';
+            }
+
             function updateTimerDisplay(value) {
                 timerDisplay.textContent = value;
-                const percentage = (value / 15) * 100;
-                timerFill.style.width = percentage + '%';
-                timerFill.classList.remove('warning', 'danger');
-                if (value <= 5) timerFill.classList.add('danger');
-                else if (value <= 10) timerFill.classList.add('warning');
+                const pct = (value / 15) * 100;
+                timerFill.style.width = pct + '%';
+                timerFill.style.background =
+                    value <= 5 ?
+                    'linear-gradient(90deg, #e74c3c, #c0392b)' :
+                    value <= 10 ?
+                    'linear-gradient(90deg, #f7971e, #ffd200)' :
+                    'linear-gradient(90deg, #00d2ff, #3a7bd5)';
             }
 
             function stopTimer() {
@@ -967,10 +1473,7 @@
                     updateTimerDisplay(timer);
                     if (timer <= 0) {
                         stopTimer();
-                        // Time's up - auto submit wrong answer
-                        if (!answered) {
-                            autoFail();
-                        }
+                        if (!answered) autoFail();
                     }
                 }, 1000);
             }
@@ -981,18 +1484,60 @@
                 if (!answered && options.length > 0) {
                     options.forEach(btn => {
                         btn.classList.add('disabled-option');
-                        if (btn.dataset.correct === 'true') {
-                            btn.classList.add('correct');
-                        }
+                        if (btn.dataset.correct === 'true') btn.classList.add('correct');
                     });
                     const q = currentQuestions[currentIndex];
-                    const correctText = q.options[q.answer];
                     feedback.className = 'feedback-box wrong';
                     feedback.innerHTML =
-                        `<i class="fas fa-clock"></i> Waktu habis! Jawaban yang benar: <strong>${correctText}</strong>`;
+                        `<i class="fas fa-clock"></i> ⏰ Waktu habis! Jawaban: <span class="highlight">${q.options[q.answer]}</span>`;
                     answered = true;
-                    document.getElementById('nextBtn').disabled = false;
                     totalAnswered++;
+                    streak = 0;
+                    updateStreak();
+                    document.getElementById('nextBtn').disabled = false;
+                    checkAchievements();
+                }
+            }
+
+            function showToast(message, type = 'success') {
+                const icons = {
+                    success: 'fas fa-check-circle icon-success',
+                    error: 'fas fa-times-circle icon-error',
+                    info: 'fas fa-info-circle icon-info'
+                };
+                toast.querySelector('i').className = icons[type] || icons.info;
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+
+            function checkAchievements() {
+                const total = currentQuestions.length;
+                // First Blood
+                if (!achievements.firstBlood && score > 0) {
+                    achievements.firstBlood = true;
+                    showToast('🏅 Achievement: First Blood! Dapatkan skor pertama!', 'info');
+                }
+                // Streak 5
+                if (!achievements.streak5 && streak >= 5) {
+                    achievements.streak5 = true;
+                    showToast('🔥 Achievement: Streak 5! Jawab 5 benar berturut-turut!', 'info');
+                }
+                // Streak 10
+                if (!achievements.streak10 && streak >= 10) {
+                    achievements.streak10 = true;
+                    showToast('⚡ Achievement: Streak 10! Luar biasa konsisten!', 'info');
+                }
+                // Perfect Score
+                if (!achievements.perfectScore && score === total && total > 0) {
+                    achievements.perfectScore = true;
+                    showToast('💯 Achievement: Perfect Score! Jawab semua benar!', 'info');
+                }
+                // Master
+                if (!achievements.master && score >= 50) {
+                    achievements.master = true;
+                    showToast('👑 Achievement: Master! Skor mencapai 50+!', 'info');
                 }
             }
 
@@ -1007,13 +1552,7 @@
 
                 const q = currentQuestions[currentIndex];
                 const labels = ['A', 'B', 'C', 'D'];
-
-                // Build difficulty emoji
-                const diffEmoji = {
-                    'Mudah': '🟢',
-                    'Sedang': '🟡',
-                    'Sulit': '🔴'
-                };
+                const diffMap = { 'Mudah': 'easy', 'Sedang': 'medium', 'Sulit': 'hard' };
 
                 let optionsHtml = '';
                 q.options.forEach((opt, idx) => {
@@ -1035,7 +1574,8 @@
                         </div>
                         <div class="q-text">${q.question}</div>
                         <div class="q-difficulty">
-                            <i class="fas fa-signal"></i> ${diffEmoji[q.difficulty] || '⚪'} ${q.difficulty || 'Mudah'}
+                            <span class="dot ${diffMap[q.difficulty] || 'easy'}"></span>
+                            ${q.difficulty || 'Mudah'}
                         </div>
                     </div>
 
@@ -1048,11 +1588,11 @@
                     </div>
 
                     <div class="action-bar">
-                        <div>
+                        <div class="action-left">
                             <button class="btn btn-secondary" id="resetBtn"><i class="fas fa-redo"></i> Ulang</button>
                             <button class="btn btn-secondary" id="skipBtn"><i class="fas fa-forward"></i> Skip</button>
                         </div>
-                        <div>
+                        <div class="action-right">
                             <button class="btn btn-primary" id="nextBtn" disabled><i class="fas fa-arrow-right"></i> Selanjutnya</button>
                         </div>
                     </div>
@@ -1061,17 +1601,17 @@
                 mainContent.innerHTML = html;
                 answered = false;
                 updateScore();
+                updateProgress();
+                updateStreak();
 
-                // Attach events
+                // Events
                 document.querySelectorAll('.option-btn').forEach(btn => {
                     btn.addEventListener('click', onOptionClick);
                 });
-
                 document.getElementById('resetBtn').addEventListener('click', resetQuiz);
                 document.getElementById('skipBtn').addEventListener('click', skipQuestion);
                 document.getElementById('nextBtn').addEventListener('click', nextQuestion);
 
-                // Start timer
                 startTimer();
             }
 
@@ -1092,26 +1632,30 @@
                     btn.classList.add('correct');
                     score += 1;
                     correctCount++;
+                    streak++;
+                    maxStreak = Math.max(maxStreak, streak);
                     feedback.className = 'feedback-box correct';
-                    feedback.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Benar! +1 poin.`;
+                    feedback.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Benar! +1 poin`;
+                    showToast('✅ Jawaban Benar!', 'success');
                 } else {
                     btn.classList.add('wrong');
+                    streak = 0;
                     allBtns.forEach(b => {
-                        if (b.dataset.correct === 'true') {
-                            b.classList.add('correct');
-                        }
+                        if (b.dataset.correct === 'true') b.classList.add('correct');
                     });
                     const q = currentQuestions[currentIndex];
-                    const correctText = q.options[q.answer];
                     feedback.className = 'feedback-box wrong';
                     feedback.innerHTML =
-                        `<i class="fas fa-times-circle"></i> ❌ Salah. Jawaban benar: <strong>${correctText}</strong>`;
+                        `<i class="fas fa-times-circle"></i> ❌ Salah. Jawaban: <span class="highlight">${q.options[q.answer]}</span>`;
+                    showToast('❌ Jawaban Salah', 'error');
                 }
 
                 updateScore();
+                updateStreak();
                 totalAnswered++;
                 document.getElementById('nextBtn').disabled = false;
                 answered = true;
+                checkAchievements();
             }
 
             // ============================================================
@@ -1131,17 +1675,18 @@
                 const feedback = document.getElementById('feedback');
                 allBtns.forEach(b => b.classList.add('disabled-option'));
                 const q = currentQuestions[currentIndex];
-                const correctText = q.options[q.answer];
                 allBtns.forEach(b => {
-                    if (b.dataset.correct === 'true') {
-                        b.classList.add('correct');
-                    }
+                    if (b.dataset.correct === 'true') b.classList.add('correct');
                 });
                 feedback.className = 'feedback-box wrong';
-                feedback.innerHTML = `<i class="fas fa-forward"></i> Dilewati. Jawaban: <strong>${correctText}</strong>`;
+                feedback.innerHTML =
+                    `<i class="fas fa-forward"></i> ⏭️ Dilewati. Jawaban: <span class="highlight">${q.options[q.answer]}</span>`;
                 answered = true;
                 totalAnswered++;
+                streak = 0;
+                updateStreak();
                 document.getElementById('nextBtn').disabled = false;
+                showToast('⏭️ Soal dilewati', 'info');
             }
 
             // ============================================================
@@ -1151,47 +1696,79 @@
                 stopTimer();
                 const total = currentQuestions.length;
                 const wrongCount = totalAnswered - correctCount;
-                const percentage = Math.round((correctCount / total) * 100);
+                const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
 
-                let emoji, message;
-                if (percentage === 100) { emoji = '🏆';
-                    message = 'Sempurna! Kamu benar-benar hebat!'; } else if (percentage >= 80) { emoji = '🌟';
-                    message = 'Luar biasa! Pertahankan prestasimu!'; } else if (percentage >= 60) { emoji = '💪';
-                    message = 'Bagus! Terus belajar dan tingkatkan!'; } else if (percentage >= 40) { emoji = '📖';
-                    message = 'Semangat! Belajar lebih giat lagi!'; } else { emoji = '😅';
-                    message = 'Jangan menyerah! Coba lagi dengan lebih fokus!'; }
+                let emoji, title, message;
+                if (pct === 100) { emoji = '🏆';
+                    title = 'Sempurna!';
+                    message = 'Kamu menjawab <strong>semua soal dengan benar</strong>! Kamu benar-benar hebat!'; } else if (
+                    pct >= 80) { emoji = '🌟';
+                    title = 'Luar Biasa!';
+                    message = `Kamu mendapatkan <strong>${pct}%</strong> jawaban benar. Pertahankan prestasimu!`; } else if (
+                    pct >= 60) { emoji = '💪';
+                    title = 'Bagus!';
+                    message = `Kamu menjawab <strong>${pct}%</strong> dengan benar. Terus tingkatkan!`; } else if (pct >=
+                    40) { emoji = '📖';
+                    title = 'Semangat!';
+                    message = `Kamu mencapai <strong>${pct}%</strong>. Belajar lebih giat lagi ya!`; } else { emoji = '😅';
+                    title = 'Coba Lagi!';
+                    message = `Jangan menyerah! ${pct}% bukan akhir. Latihan membuat sempurna!`; }
 
-                // Get category performance
-                const catStats = {};
-                currentQuestions.forEach(q => {
-                    if (!catStats[q.category]) catStats[q.category] = { total: 0, correct: 0 };
-                    catStats[q.category].total++;
+                // Achievement badges
+                let achievementsHtml = '';
+                const achList = [
+                    { key: 'firstBlood', icon: '🩸', label: 'First Blood' },
+                    { key: 'streak5', icon: '🔥', label: 'Streak 5' },
+                    { key: 'streak10', icon: '⚡', label: 'Streak 10' },
+                    { key: 'perfectScore', icon: '💯', label: 'Perfect Score' },
+                    { key: 'master', icon: '👑', label: 'Master' },
+                ];
+                achList.forEach(a => {
+                    const unlocked = achievements[a.key];
+                    achievementsHtml += `
+                        <div class="achievement-badge ${unlocked ? 'unlocked' : ''}">
+                            <i class="fas ${unlocked ? 'fa-star' : 'fa-lock'}"></i>
+                            ${a.icon} ${a.label}
+                        </div>
+                    `;
                 });
-                // We don't track per-category correct easily, but we can show general
 
                 const html = `
                     <div class="result-card">
                         <div class="result-emoji">${emoji}</div>
-                        <div class="result-title">Quiz Selesai! 🎉</div>
-                        <div class="result-score">${correctCount} / ${total}</div>
-                        <div class="result-detail">
+                        <div class="result-title">${title}</div>
+                        <div class="result-subtitle">Quiz Selesai! 🎉</div>
+
+                        <div class="result-score-circle" style="--pct: ${pct}%">
+                            <div class="score-number">${correctCount}</div>
+                            <div class="score-label">dari ${total}</div>
+                        </div>
+
+                        <div class="result-details">
                             <div class="result-stat">
-                                <div class="number correct-color">${correctCount}</div>
+                                <div class="number green">${correctCount}</div>
                                 <div class="label">✅ Benar</div>
                             </div>
                             <div class="result-stat">
-                                <div class="number wrong-color">${wrongCount}</div>
-                                <div class="label">❌ Salah / Skip</div>
+                                <div class="number red">${wrongCount}</div>
+                                <div class="label">❌ Salah/Skip</div>
                             </div>
                             <div class="result-stat">
-                                <div class="number">${percentage}%</div>
+                                <div class="number gold">${pct}%</div>
                                 <div class="label">🎯 Nilai</div>
                             </div>
                         </div>
+
                         <div class="result-message">
                             <i class="fas fa-quote-left"></i> ${message} <i class="fas fa-quote-right"></i>
+                            <br><span style="font-size:13px; color:var(--text-muted);">🔥 Streak terbaik: ${maxStreak} jawaban benar berturut-turut</span>
                         </div>
-                        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+
+                        <div class="achievement-section">
+                            ${achievementsHtml}
+                        </div>
+
+                        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:8px;">
                             <button class="btn btn-primary" id="restartBtn"><i class="fas fa-redo"></i> Main Lagi</button>
                             <button class="btn btn-secondary" id="homeBtn"><i class="fas fa-home"></i> Kategori</button>
                         </div>
@@ -1202,16 +1779,14 @@
                 timerFill.style.width = '100%';
                 timerDisplay.textContent = '0';
 
-                document.getElementById('restartBtn').addEventListener('click', () => {
-                    resetQuiz();
-                });
+                document.getElementById('restartBtn').addEventListener('click', resetQuiz);
                 document.getElementById('homeBtn').addEventListener('click', () => {
-                    // Reset to category selection
                     currentQuestions = getQuestionsByCategory(categoryFilter);
                     currentIndex = 0;
                     score = 0;
                     correctCount = 0;
                     totalAnswered = 0;
+                    streak = 0;
                     renderQuestion();
                 });
             }
@@ -1226,28 +1801,32 @@
                 score = 0;
                 correctCount = 0;
                 totalAnswered = 0;
+                streak = 0;
+                updateStreak();
                 renderQuestion();
+                showToast('🔄 Quiz direset!', 'info');
             }
 
             // ============================================================
             //  CATEGORY SELECTOR
             // ============================================================
             categorySelector.addEventListener('click', function(e) {
-                const btn = e.target.closest('.cat-btn');
+                const btn = e.target.closest('.cat-chip');
                 if (!btn) return;
                 const category = btn.dataset.category;
-                // Update active
-                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 categoryFilter = category;
-                // Reset quiz with new category
                 stopTimer();
                 currentQuestions = getQuestionsByCategory(category);
                 currentIndex = 0;
                 score = 0;
                 correctCount = 0;
                 totalAnswered = 0;
+                streak = 0;
+                updateStreak();
                 renderQuestion();
+                showToast(`📚 Kategori: ${category === 'all' ? 'Semua' : category}`, 'info');
             });
 
             // ============================================================
@@ -1258,5 +1837,6 @@
 
         })();
     </script>
+
 </body>
 </html>
